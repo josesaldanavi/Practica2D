@@ -13,6 +13,14 @@ public class PlayerController : MonoBehaviour {
     Rigidbody2D rgbd2D;
     Animator player;
     SpriteRenderer spritePlayer;
+
+    [Header("Attack")]
+    public Transform attackPos;
+    public float Range;
+    public float damage;
+    public LayerMask whatIsEnemy;
+
+    
 	// Use this for initialization
 	void Start ()
     {
@@ -23,12 +31,6 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update ()
-    {
- 
-        
-
-	}
 
     private void FixedUpdate()
     {
@@ -37,6 +39,7 @@ public class PlayerController : MonoBehaviour {
         Vector2 v_2 = new Vector2(horizontal, 0);
         rgbd2D.velocity = v_2 * speed * Time.deltaTime;
         player.SetFloat("Walk", Mathf.Abs(horizontal));
+      
         if (horizontal < 0)
         {
             spritePlayer.flipX = true;
@@ -45,12 +48,40 @@ public class PlayerController : MonoBehaviour {
         {
             spritePlayer.flipX = false;
         }
+        Jump();
+        Attack();
+    }
+
+    void Jump()
+    {
         isGrounded = Physics2D.OverlapCircle(checkGround.position, radius, whatIsGround);
         if (isGrounded == true && Input.GetKeyDown(KeyCode.Space))
         {
-            rgbd2D.velocity = Vector2.up * forceJump;
+            rgbd2D.AddForce(Vector2.up * forceJump, ForceMode2D.Impulse);
             player.SetBool("Jump", true);
         }
+    }
+    void Attack()
+    {
+        if (Input.GetKey(KeyCode.X))
+        {
+            /*Collider2D[] enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, Range, whatIsEnemy);
+            for(int i = 0; i < enemiesToDamage.Length; i++)
+            {
+                enemiesToDamage[i].GetComponent<Enemy>();
+            }*/
+            player.SetBool("Attack",true);
+        }
+        else
+        {
+            player.SetBool("Attack", false);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(checkGround.position, radius);
     }
 
 }
