@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour {
     public float forceJump;
     public bool isGrounded;
     public float radius;
+    public float maxForce=5f;
     public Transform checkGround;
     public LayerMask whatIsGround;
     Rigidbody2D rgbd2D;
@@ -38,6 +39,8 @@ public class PlayerController : MonoBehaviour {
         Debug.Log(horizontal);
         Vector2 v_2 = new Vector2(horizontal, 0);
         rgbd2D.velocity = v_2 * speed * Time.deltaTime;
+        float limitForce = Mathf.Clamp(rgbd2D.velocity.x, -maxForce, maxForce);
+        rgbd2D.velocity = new Vector2(limitForce, rgbd2D.velocity.y);
         player.SetFloat("Walk", Mathf.Abs(horizontal));
       
         if (horizontal < 0)
@@ -48,15 +51,16 @@ public class PlayerController : MonoBehaviour {
         {
             spritePlayer.flipX = false;
         }
-        Jump();
+        Jump(rgbd2D);
         Attack();
     }
 
-    void Jump()
+    void Jump(Rigidbody2D rbd2)
     {
         isGrounded = Physics2D.OverlapCircle(checkGround.position, radius, whatIsGround);
         if (isGrounded == true && Input.GetKeyDown(KeyCode.Space))
         {
+            rbd2.velocity = new Vector2(rbd2.velocity.x, 2);
             rgbd2D.AddForce(Vector2.up * forceJump, ForceMode2D.Impulse);
             player.SetBool("Jump", true);
         }
