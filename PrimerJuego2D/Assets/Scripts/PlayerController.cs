@@ -20,16 +20,16 @@ public class PlayerController : MonoBehaviour {
     public float Range;
     public float damage;
     public LayerMask whatIsEnemy;
-
     
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
         jugador = GameObject.Find("Jugador");
         rgbd2D = jugador.GetComponent<Rigidbody2D>();
         player = jugador.GetComponent<Animator>();
         spritePlayer = jugador.GetComponent<SpriteRenderer>();
-	}
+       
+    }
 	
 	// Update is called once per frame
 
@@ -60,9 +60,10 @@ public class PlayerController : MonoBehaviour {
         isGrounded = Physics2D.OverlapCircle(checkGround.position, radius, whatIsGround);
         if (isGrounded == true && Input.GetKeyDown(KeyCode.Space))
         {
-            rbd2.velocity = new Vector2(rbd2.velocity.x, 2);
-            rgbd2D.AddForce(Vector2.up * forceJump, ForceMode2D.Impulse);
+            rbd2.velocity = new Vector2(rbd2.velocity.x,0);
             player.SetBool("Jump", true);
+            rgbd2D.AddForce(Vector2.up * forceJump, ForceMode2D.Impulse);
+            
         }
     }
     void Attack()
@@ -81,6 +82,7 @@ public class PlayerController : MonoBehaviour {
             player.SetBool("Attack", false);
         }
     }
+    
 
     private void OnDrawGizmosSelected()
     {
