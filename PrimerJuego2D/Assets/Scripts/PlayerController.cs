@@ -9,12 +9,13 @@ public class PlayerController : MonoBehaviour {
     public bool isGrounded;
     public float radius;
     public float maxForce=5f;
+    public float vida=100f;
     public Transform checkGround;
     public LayerMask whatIsGround;
     Rigidbody2D rgbd2D;
     Animator player;
     SpriteRenderer spritePlayer;
-
+    
     [Header("Attack")]
     public Transform attackPos;
     public float Range;
@@ -30,9 +31,13 @@ public class PlayerController : MonoBehaviour {
         spritePlayer = jugador.GetComponent<SpriteRenderer>();
        
     }
-	
-	// Update is called once per frame
 
+    // Update is called once per frame
+
+    private void Update()
+    {
+        ReduccionDeVida();
+    }
     private void FixedUpdate()
     {
         float horizontal = Input.GetAxisRaw("Horizontal") * speed;
@@ -83,6 +88,10 @@ public class PlayerController : MonoBehaviour {
         }
     }
     
+    public void ReduccionDeVida()
+    {
+
+    }
 
     private void OnDrawGizmosSelected()
     {
