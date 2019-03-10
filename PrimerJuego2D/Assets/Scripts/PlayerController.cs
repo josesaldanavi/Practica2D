@@ -36,28 +36,33 @@ public class PlayerController : MonoBehaviour {
 
     private void Update()
     {
-        ReduccionDeVida();
+        
     }
     private void FixedUpdate()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal") * speed;
-        Debug.Log(horizontal);
-        Vector2 v_2 = new Vector2(horizontal, 0);
-        rgbd2D.velocity = v_2 * speed * Time.deltaTime;
-        float limitForce = Mathf.Clamp(rgbd2D.velocity.x, -maxForce, maxForce);
-        rgbd2D.velocity = new Vector2(limitForce, rgbd2D.velocity.y);
-        player.SetFloat("Walk", Mathf.Abs(horizontal));
-      
-        if (horizontal < 0)
+        isGrounded = Physics2D.OverlapCircle(checkGround.position, radius, whatIsGround);
+        if (GameController.inicio_juego && isGrounded)
         {
-            spritePlayer.flipX = true;
+            float horizontal = Input.GetAxisRaw("Horizontal") * speed;
+            Debug.Log(horizontal);
+            Vector2 v_2 = new Vector2(horizontal, 0);
+            rgbd2D.velocity = v_2 * speed * Time.deltaTime;
+            float limitForce = Mathf.Clamp(rgbd2D.velocity.x, -maxForce, maxForce);
+            rgbd2D.velocity = new Vector2(limitForce, rgbd2D.velocity.y);
+            player.SetFloat("Walk", Mathf.Abs(horizontal));
+
+            if (horizontal < 0)
+            {
+                spritePlayer.flipX = true;
+            }
+            if (horizontal > 0)
+            {
+                spritePlayer.flipX = false;
+            }
+            Jump(rgbd2D);
+            Attack();
         }
-        if (horizontal > 0)
-        {
-            spritePlayer.flipX = false;
-        }
-        Jump(rgbd2D);
-        Attack();
+        
     }
 
     void Jump(Rigidbody2D rbd2)
@@ -87,12 +92,7 @@ public class PlayerController : MonoBehaviour {
             player.SetBool("Attack", false);
         }
     }
-    
-    public void ReduccionDeVida()
-    {
-
-    }
-
+   
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

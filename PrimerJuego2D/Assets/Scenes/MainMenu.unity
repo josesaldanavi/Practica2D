@@ -503,7 +503,7 @@ GameObject:
   - component: {fileID: 584214142}
   - component: {fileID: 584214141}
   m_Layer: 0
-  m_Name: SceneManager
+  m_Name: GameController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -517,7 +517,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 584214140}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3ef9b44fdd1cc642b50ce30ab7c29d6, type: 3}
+  m_Script: {fileID: 11500000, guid: b770ef5259a0fc44db098bf90e806399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sceneNumber: 1
@@ -855,7 +855,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 584214141}
-        m_MethodName: CambioEscena
+        m_MethodName: InicioJuego
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
